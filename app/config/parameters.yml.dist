@@ -10,16 +10,19 @@ parameters:
     # You should uncomment this if you want to use pdo_sqlite
     #database_path: '%kernel.project_dir%/var/data/data.sqlite'
 
-    mailer_transport: smtp
+    mailer_transport: mailgun
     mailer_host: 127.0.0.1
     mailer_user: ~
     mailer_password: ~
+    mailer_from: mailer@bikip.com
+    mailgun_domain: mg.kodear.net
+    mailgun_key: key-c30e15ae16cc6770370cdc06606440fc
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
 
     locale: es
 
-    app_brand: ~
-    app_base_url: ~
-    app_registration_confirm_url: /register/confirm/
+    register_confirmation_required: true
+
+    client_base_url: 'http://bikip.kodear.net'

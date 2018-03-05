@@ -1,5 +1,5 @@
 api_security:
     delivery: header
-    parameter_name: 'X-EXPRIMI360-APIKEY'
+    parameter_name: 'X-BIKIP-APIKEY'
     expiration_days: 30
 

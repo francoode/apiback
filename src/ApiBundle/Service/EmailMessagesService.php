@@ -92,7 +92,7 @@ class EmailMessagesService
 
         $message = \Swift_Message::newInstance()
             ->setSubject($subject)
-            ->setFrom(array($this->container->getParameter('from_email') => $brand))
+            ->setFrom(array($this->container->getParameter('mailer_from') => $brand))
             ->setTo($email)
             ->setBody($body, 'text/html');
 

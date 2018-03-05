@@ -52,7 +52,7 @@ class BlameListener implements EventSubscriberInterface
         $token = $this->tokenStorage->getToken();
 
         if (null !== $token && $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $requester = $this->userProvider->getUserForApiKey($event->getRequest()->headers->get('x-kodear-apikey'));
+            $requester = $this->userProvider->getUserForApiKey($event->getRequest()->headers->get('x-bikip-apikey'));
             $this->blameableListener->setUserValue($requester);
         }
     }

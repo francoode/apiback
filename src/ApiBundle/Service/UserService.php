@@ -11,6 +11,19 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserService extends EntitiesService
 {
+    protected $registerConfirmationRequired;
+    protected $tokenGenerator;
+
+    public function setRegisterConfirmationRequired($registerConfirmationRequired)
+    {
+        $this->registerConfirmationRequired = $registerConfirmationRequired;
+    }
+
+    public function setTokenGenerator($tokenGenerator)
+    {
+        $this->tokenGenerator = $tokenGenerator;
+    }
+
     /**
      * Finds the User entity by id
      *
@@ -95,18 +108,16 @@ class UserService extends EntitiesService
                 );
             }
 
-            try {
-                // Enviar email de welcome
-                $emailHelper = $this->container->get('kodear_api.email_messages_service');
+            if ($this->registerConfirmationRequired) {
+                try {
+                    // Enviar email de welcome
+                    $emailHelper = $this->container->get('kodear_api.email_messages_service');
 
-                dump($emailHelper);
-
-                $emailHelper->sendWelcomeHtmlEmailMessage($user, $request->request->get('plainPassword'));
-            } catch (\Exception $e) {
-                dump($e);
-
-                // falla al enviar el email. Retornamos la resp igualmente para que no trabe.
-                return $this->helperService->buildResponseSuccessMessage($user, Response::HTTP_CREATED);
+                    $emailHelper->sendWelcomeHtmlEmailMessage($user, $request->request->get('plainPassword'));
+                } catch (\Exception $e) {
+                    // falla al enviar el email. Retornamos la resp igualmente para que no trabe.
+                    return $this->helperService->buildResponseSuccessMessage($user, Response::HTTP_CREATED);
+                }
             }
 
             return $this->helperService->buildResponseSuccessMessage($user, Response::HTTP_CREATED);
@@ -122,19 +133,16 @@ class UserService extends EntitiesService
      * Confirm registration
      * 
      * @param Request $request Given HTTP request
-     * @param Form $form Given form
      * 
      * @return Response
      */
     public function registerConfirm(Request $request)
     {
-        $form->submit($request);
-
         $token = $request->request->get('confirmationToken');
 
         if (null == $token) {
             return [
-                'message' => 'The confirmation token is required',
+                'message' => array('error' => 'The confirmation token is required'),
                 'status' => Response::HTTP_BAD_REQUEST
             ];
         }
@@ -147,7 +155,7 @@ class UserService extends EntitiesService
 
         if (null == $user) {
             return [
-                'message' => 'Invalid confirmation token',
+                'message' => array('error' => 'Invalid confirmation token'),
                 'status' => Response::HTTP_BAD_REQUEST
             ];
         }
@@ -157,6 +165,9 @@ class UserService extends EntitiesService
 
         // clean confirmation token
         $user->setConfirmationToken(null);
+
+        // update user
+        $userManager->updateUser($user, true);
 
         return $this->helperService->buildResponseSuccessMessage($user, Response::HTTP_OK);
     }
@@ -199,8 +210,8 @@ class UserService extends EntitiesService
 
         // Seteo el mail que corresponde al confirmation_token
         $request->request->set('username', $user->getUsername());
-        if ($request->request->get('password')) {
-            $user->setPlainPassword($request->request->get('password'));
+        if ($request->request->get('plainPassword')) {
+            $user->setPlainPassword($request->request->get('plainPassword'));
             $user->setConfirmationToken(null);
             $userManager->updateUser($user);
 

@@ -3,6 +3,6 @@ api:
     password_reset_template: 'email/password_reset.html.twig'
     client:
         brand: 'Bikip'
-        base_url: 'http://kodear.bikipweb.net'
+        base_url: '%client_base_url%'
         registration_confirm_url: '/register/confirm/'
-        password_reset_url: '/password/reset/'
+        password_reset_url: '/reset/confirm/'

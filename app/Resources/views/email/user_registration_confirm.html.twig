@@ -1,6 +1,65 @@
-{% extends 'base.html.twig' %}
+{% extends 'email.html.twig' %}
 
 {% block body %}
-	<p>Bienvenido,</p>
-	<p>Confirma <a href="{{registerConfirmUrl}}">aquí</a> tu registro para comenzar a utilizar {{ brand }}</p>
+	<table 
+		style="border-collapse: collapse; border: 0; margin-left: 20%; width: 60%; text-align: center;"
+        background="{{app.request.getSchemeAndHttpHost() ~ asset('images/bg-1.jpg')}}">
+        <tr>
+            <td 
+            	colspan="3" 
+            	style="border: 0; width: 100%; text-align:center; padding: 0; margin: 0;">
+                <p style="text-transform: uppercase; font-family: inherit; font-size: 25px; font-weight: 500; color: #fff;">
+                    <img 
+                        src="{{app.request.getSchemeAndHttpHost() ~ asset('images/logo-1.png')}}" 
+                        style="width:auto; height: auto;">
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <td 
+            	colspan="3" 
+            	style="border: 0; width: 100%; text-align:center; padding: 0; margin: 0;">
+                <hr style="margin: 0; border: 0; height: 1px; background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0); background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0); background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0); background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);">
+            </td>
+        </tr>
+        <tr>
+            <td style="border: 0; width: 20%;"></td>
+            <td style="border: 0; width: 60%;">
+                <p style="font-size: 18px; margin-top: 30px;" >
+                    ¡Bienvenido!
+                </p>
+                <p style="margin-bottom: 0px; padding-bottom: 0px; font-size: 20px;">
+                    Has iniciado tu registro en {{ brand }}. Confirma tu correo electrónico para finalizar el proceso.
+                </p>
+                <a 
+                	style="color: white; border-color: #c2acf4; background-color: transparent; display: inline-block; text-align: center; padding: 1.4rem 4rem; margin-top: 0.8rem; box-shadow: 0px 5px 10px 2px rgba(152, 22, 244, 0.19) font-size: 1rem; font-weight: 400; font-family: Poppins; border-radius: 60px; cursor: pointer; white-space: nowrap; vertical-align: middle; user-select: none; border: 1px solid; line-height: 1.25; transition: all 0.15s ease-in-out; -webkit-appearance: button; text-transform: none; overflow: visible; margin: 30px 0px 0px 0px; align-items: flex-start; text-rendering: auto; letter-spacing: normal; word-spacing: normal; text-indent: 0px; text-shadow: none; font: 13.3333px Arial; -webkit-writing-mode: horizontal-tb; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; -webkit-tap-highlight-color: transparent;" 
+                	href="{{ registerConfirmUrl }}">
+                    Confirmar
+                </a>
+                <p style="margin-bottom: 30px;">&nbsp;</p>
+            </td>
+            <td style="border: 0; width: 20%;"></td>
+        </tr>
+        <tr>
+            <td 
+            	colspan="3" 
+            	style="border: 0; width: 100%; text-align:center;">
+                <table style="margin: 0; padding: 0; width: 100%; text-aling: center;">
+                    <tr>
+                        <td style="border: 0; margin: 0; padding: 0px 0px 0px 40px; width: 30%; text-align: left;">
+                            <img 
+                                src="{{app.request.getSchemeAndHttpHost() ~ asset('images/logo-1.png')}}" 
+                                style="width:auto; height: 20px; opacity: 0.3;">
+                        </td>
+                        <td style="border: 0; margin: 0; padding: 0; width: 40%; text-aling: center; vertical-align: bottom;">
+                            <p style="font-size: 12px; color: white; text-align:center; vertical-align: bottom;">
+                                @ 2017 {{ brand }} | Todos los derechos reservados
+                            </p>
+                        </td>
+                        <td style="border: 0; margin: 0; padding: 0; width: 30%; text-aling: right;"></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 {% endblock %}

@@ -3,15 +3,16 @@ services:
         class: ApiBundle\Service\EntitiesService
         abstract: true
         arguments: 
-            - '@api_security.api_key_user_provider'
+            #- '@api_security.api_key_user_provider'
+            #- %register_confirmation_required%
         calls:
             - [setApiKeyUserProvider, ['@api_security.api_key_user_provider']]
             - [setContainer, ['@service_container']]
             - [setEntityManager, ['@doctrine.orm.entity_manager']]
             - [setHelperService, ['@kodear_api.helper_service']]
             - [setFormFactory, ['@form.factory']]
-            - [setRegisterConfirmationRequired, [%register_confirmation_required%]]
-            - [setTokenGenerator, ['@fos_user.util.token_generator']]
+            #- [setRegisterConfirmationRequired, [%register_confirmation_required%]]
+            #- [setTokenGenerator, ['@fos_user.util.token_generator']]
 
     kodear_api.helper_service:
         class: ApiBundle\Service\HelperService
@@ -37,6 +38,9 @@ services:
     kodear_api.user_service:
         class: ApiBundle\Service\UserService
         parent: kodear_api.entities_service
+        calls:
+            - [setRegisterConfirmationRequired, [%register_confirmation_required%]]
+            - [setTokenGenerator, ['@fos_user.util.token_generator']]
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 

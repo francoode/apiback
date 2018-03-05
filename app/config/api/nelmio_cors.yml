@@ -2,8 +2,8 @@ nelmio_cors:
     defaults:
         allow_credentials: false
         allow_origin: ['*']
-        allow_headers: ['X-Custom-Auth']
-        allow_methods: ['POST', 'PUT', 'GET', 'DELETE']
+        allow_headers: ['X-BIKIP-APIKEY', 'Content-Type']
+        allow_methods: ['POST', 'PATCH', 'GET', 'DELETE']
         max_age: 3600
         hosts: []
         origin_regex: false

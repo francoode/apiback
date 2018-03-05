@@ -1,0 +1,258 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+
+/**
+ * Company
+ *
+ * @ORM\Table(name="company")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CompanyRepository")
+ * @Serializer\ExclusionPolicy("ALL")
+ */
+class Company
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("id")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("name")
+     */
+    private $name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CompanyType")
+     * @ORM\JoinColumn(name="type_id", referencedColumnName="id")
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("type")
+     */
+    private $type;
+
+    /**
+     * @ORM\Column(name="email", type="string", length=255)
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("email")
+     */
+    private $email;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Contact", mappedBy="companyCollection")
+     */
+    private $contactCollection;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Study")
+     * @ORM\JoinColumn(name="study_id", referencedColumnName="id")
+     */
+    private $study;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\LogAction", mappedBy="company")
+     */
+    private $logCollection;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Note", mappedBy="company")
+     */
+    private $noteCollection;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Company
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Company
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Company
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->contactCollection = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add contactCollection
+     *
+     * @param \AppBundle\Entity\Contact $contactCollection
+     *
+     * @return Company
+     */
+    public function addContactCollection(\AppBundle\Entity\Contact $contactCollection)
+    {
+        $this->contactCollection[] = $contactCollection;
+
+        return $this;
+    }
+
+    /**
+     * Remove contactCollection
+     *
+     * @param \AppBundle\Entity\Contact $contactCollection
+     */
+    public function removeContactCollection(\AppBundle\Entity\Contact $contactCollection)
+    {
+        $this->contactCollection->removeElement($contactCollection);
+    }
+
+    /**
+     * Get contactCollection
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContactCollection()
+    {
+        return $this->contactCollection;
+    }
+
+  
+
+   
+
+    /**
+     * Set study
+     *
+     * @param \AppBundle\Entity\Study $study
+     *
+     * @return Company
+     */
+    public function setStudy(\AppBundle\Entity\Study $study = null)
+    {
+        $this->study = $study;
+
+        return $this;
+    }
+
+    /**
+     * Get study
+     *
+     * @return \AppBundle\Entity\Study
+     */
+    public function getStudy()
+    {
+        return $this->study;
+    }
+
+    /**
+     * Add logCollection
+     *
+     * @param \AppBundle\Entity\LogAction $logCollection
+     *
+     * @return Company
+     */
+    public function addLogCollection(\AppBundle\Entity\LogAction $logCollection)
+    {
+        $this->logCollection[] = $logCollection;
+
+        return $this;
+    }
+
+    /**
+     * Remove logCollection
+     *
+     * @param \AppBundle\Entity\LogAction $logCollection
+     */
+    public function removeLogCollection(\AppBundle\Entity\LogAction $logCollection)
+    {
+        $this->logCollection->removeElement($logCollection);
+    }
+
+    /**
+     * Get logCollection
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLogCollection()
+    {
+        return $this->logCollection;
+    }
+}

@@ -26,20 +26,6 @@ abstract class EntitiesService
     /** @var FormFactory */
     protected $formFactory;
 
-    protected $registerConfirmationRequired;
-
-    protected $tokenGenerator;
-
-    public function setTokenGenerator($tokenGenerator)
-    {
-        $this->tokenGenerator = $tokenGenerator;
-    }
-
-    public function setRegisterConfirmationRequired($registerConfirmationRequired)
-    {
-        $this->registerConfirmationRequired = $registerConfirmationRequired;
-    }
-
     public function setContainer(Container $container)
     {
         $this->container = $container;
@@ -68,7 +54,7 @@ abstract class EntitiesService
     public function onKernelRequest(GetResponseEvent $event)
     {
         $this->requester = $this->userProvider->getUserForApiKey(
-            $event->getRequest()->headers->get('x-kodear-apikey')
+            $event->getRequest()->headers->get('x-bikip-apikey')
         );
         $this->requesterIp = $event->getRequest()->getClientIp();
     }

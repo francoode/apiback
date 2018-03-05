@@ -125,7 +125,7 @@ class SecurityController extends BaseApiController
     public function renewAccessToken(Request $request)
     {
         $requester = $this->get('api_security.api_key_user_provider')->getUserForApiKey(
-            $request->headers->get('x-kodear-apikey')
+            $request->headers->get('x-bikip-apikey')
         );
 
         $apiKeyService = $this->get('api_security.user_api_key_service');

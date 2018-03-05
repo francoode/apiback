@@ -12,10 +12,10 @@ FOS\UserBundle\Model\User:
             expose: true
             groups: [profile, login, basic_user]
         roles:
-            expose: true
+            expose: false
         enabled:
-            expose: true
+            expose: false
         confirmationToken:
-            expose: true
+            expose: false
         deleted:
-            expose: true
+            expose: false

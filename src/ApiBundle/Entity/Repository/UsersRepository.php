@@ -29,7 +29,7 @@ class UsersRepository extends EntityRepository
 
         $qb->join('u.apiKey', 'a');
         $qb->where('u.enabled = true')
-            ->andWhere('a.access_key = :apiKey')
+            ->andWhere('a.accessKey = :apiKey')
             ->setParameter('apiKey', $apiKey);
 
         $qb->setMaxResults(1);

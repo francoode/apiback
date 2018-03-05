@@ -6,7 +6,7 @@
 namespace ApiSecurityBundle\Util;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Psr\Log\LoggerInterface;
 
 class ApiKeyExtractorFromHeader implements ApiKeyExtractor
 {

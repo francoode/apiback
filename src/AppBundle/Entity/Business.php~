@@ -1,0 +1,360 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+
+/**
+ * Business
+ *
+ * @ORM\Table(name="business")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\BusinessRepository")
+ * @Serializer\ExclusionPolicy("ALL")
+ */
+class Business
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("id")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("name")
+     */
+    private $name;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="closingDate", type="date")
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("closingDate")
+     */
+    private $closingDate;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="amount", type="float")
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("amount")
+     */
+    private $amount;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Company")
+     * @ORM\JoinColumn(name="company_id", referencedColumnName="id")
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("company")
+     */
+    private $company;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Study")
+     * @ORM\JoinColumn(name="study_id", referencedColumnName="id")
+     */
+    private $study;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Pipeline")
+     * @ORM\JoinColumn(name="pipeline_id", referencedColumnName="id")
+     */
+    private $pipeline;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PipelineState")
+     * @ORM\JoinColumn(name="state_id", referencedColumnName="id")
+     * @Serializer\Expose()
+     * @Serializer\SerializedName("state")
+     */
+    private $state;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Contact", inversedBy="businessCollection")
+     * @ORM\JoinTable(name="business_contact")
+     *
+     */
+    private $contactCollection;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\LogAction", mappedBy="business")
+     */
+    private $logCollection;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Note", mappedBy="business")
+     */
+    private $noteCollection;
+
+
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Business
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set closingDate
+     *
+     * @param \DateTime $closingDate
+     *
+     * @return Business
+     */
+    public function setClosingDate($closingDate)
+    {
+        $this->closingDate = $closingDate;
+
+        return $this;
+    }
+
+    /**
+     * Get closingDate
+     *
+     * @return \DateTime
+     */
+    public function getClosingDate()
+    {
+        return $this->closingDate;
+    }
+
+    /**
+     * Set amount
+     *
+     * @param float $amount
+     *
+     * @return Business
+     */
+    public function setAmount($amount)
+    {
+        $this->amount = $amount;
+
+        return $this;
+    }
+
+    /**
+     * Get amount
+     *
+     * @return float
+     */
+    public function getAmount()
+    {
+        return $this->amount;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->contactCollection = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set company
+     *
+     * @param \AppBundle\Entity\Company $company
+     *
+     * @return Business
+     */
+    public function setCompany(\AppBundle\Entity\Company $company = null)
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * Get company
+     *
+     * @return \AppBundle\Entity\Company
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * Set study
+     *
+     * @param \AppBundle\Entity\Study $study
+     *
+     * @return Business
+     */
+    public function setStudy(\AppBundle\Entity\Study $study = null)
+    {
+        $this->study = $study;
+
+        return $this;
+    }
+
+    /**
+     * Get study
+     *
+     * @return \AppBundle\Entity\Study
+     */
+    public function getStudy()
+    {
+        return $this->study;
+    }
+
+    /**
+     * Set pipeline
+     *
+     * @param \AppBundle\Entity\Pipeline $pipeline
+     *
+     * @return Business
+     */
+    public function setPipeline(\AppBundle\Entity\Pipeline $pipeline = null)
+    {
+        $this->pipeline = $pipeline;
+
+        return $this;
+    }
+
+    /**
+     * Get pipeline
+     *
+     * @return \AppBundle\Entity\Pipeline
+     */
+    public function getPipeline()
+    {
+        return $this->pipeline;
+    }
+
+    /**
+     * Set state
+     *
+     * @param \AppBundle\Entity\Company $state
+     *
+     * @return Business
+     */
+    public function setState(\AppBundle\Entity\PipelineState $state = null)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return \AppBundle\Entity\Company
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Add contactCollection
+     *
+     * @param \AppBundle\Entity\Contact $contactCollection
+     *
+     * @return Business
+     */
+    public function addContactCollection(\AppBundle\Entity\Contact $contactCollection)
+    {
+        $this->contactCollection[] = $contactCollection;
+
+        return $this;
+    }
+
+    /**
+     * Remove contactCollection
+     *
+     * @param \AppBundle\Entity\Contact $contactCollection
+     */
+    public function removeContactCollection(\AppBundle\Entity\Contact $contactCollection)
+    {
+        $this->contactCollection->removeElement($contactCollection);
+    }
+
+    /**
+     * Get contactCollection
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContactCollection()
+    {
+        return $this->contactCollection;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Add logCollection
+     *
+     * @param \AppBundle\Entity\LogAction $logCollection
+     *
+     * @return Business
+     */
+    public function addLogCollection(\AppBundle\Entity\LogAction $logCollection)
+    {
+        $this->logCollection[] = $logCollection;
+
+        return $this;
+    }
+
+    /**
+     * Remove logCollection
+     *
+     * @param \AppBundle\Entity\LogAction $logCollection
+     */
+    public function removeLogCollection(\AppBundle\Entity\LogAction $logCollection)
+    {
+        $this->logCollection->removeElement($logCollection);
+    }
+
+    /**
+     * Get logCollection
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLogCollection()
+    {
+        return $this->logCollection;
+    }
+}

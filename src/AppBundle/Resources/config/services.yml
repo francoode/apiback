@@ -1,4 +1,88 @@
 services:
-#    app.example:
-#        class: AppBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    kodear_api.entities_service:
+            class: ApiBundle\Service\EntitiesService
+            abstract: true
+            arguments:
+                - '@api_security.api_key_user_provider'
+            calls:
+                - [setApiKeyUserProvider, ['@api_security.api_key_user_provider']]
+                - [setContainer, ['@service_container']]
+                - [setEntityManager, ['@doctrine.orm.entity_manager']]
+                - [setHelperService, ['@kodear_api.helper_service']]
+                - [setFormFactory, ['@form.factory']]
+
+    bikip_api.errors_service:
+        class: AppBundle\Service\ErrorsBikipService
+
+
+    bikip_api.study.handler:
+        class: AppBundle\Handler\StudyHandler
+        parent: kodear_api.entities_service
+        arguments: ['@doctrine.orm.entity_manager']
+
+    bikip_api.userextends.handler:
+        class: AppBundle\Handler\UserExtendsHandler
+        parent: kodear_api.entities_service
+
+    bikip_api.contact.handler:
+        class: AppBundle\Handler\ContactHandler
+        parent: kodear_api.entities_service
+
+    bikip_api.bootstrapping.handler:
+        class: AppBundle\Handler\BootstrappingHandler
+        parent: kodear_api.entities_service
+        calls:
+            - [setSerializer, ['@jms_serializer.serializer']]
+
+    bikip_api.onboarding.handler:
+        class: AppBundle\Handler\OnboardingHandler
+        parent: kodear_api.entities_service
+
+    bikip_api.company.handler:
+        class: AppBundle\Handler\CompanyHandler
+        parent: kodear_api.entities_service
+
+    bikip_api.team.handler:
+        class: AppBundle\Handler\TeamHandler
+        parent: kodear_api.entities_service
+
+    bikip_api.business.handler:
+        class: AppBundle\Handler\BusinessHandler
+        parent: kodear_api.entities_service
+
+    bikip_api.auxiliarFunctions.service:
+        class: AppBundle\Service\AuxiliarFunctionsService
+        parent: kodear_api.entities_service
+
+
+    bikip_api.logaction.handler:
+        class: AppBundle\Handler\LogActionHandler
+        parent: kodear_api.entities_service
+
+
+    bikip_api.note.handler:
+        class: AppBundle\Handler\NoteHandler
+        parent: kodear_api.entities_service
+
+    bikip_api.logAction.eventSuscriber:
+        class: AppBundle\EventSubscriber\LogActionSuscriber
+        arguments:
+            - '@service_container'
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    bikip_api.generateAutomaticLogMessages:
+        class: AppBundle\Service\AutomaticLogMessagesService
+        parent: kodear_api.entities_service
+
+    bikip_api.task.handler:
+        class: AppBundle\Handler\TaskHandler
+        parent: kodear_api.entities_service
+
+    bikip_api.generateTask.service:
+        class: AppBundle\Service\GenerateTaskService
+        parent: kodear_api.entities_service
+
+    bikip.api.recurrence.handler:
+        class: AppBundle\Handler\RecurrenceHandler
+        parent: kodear_api.entities_service

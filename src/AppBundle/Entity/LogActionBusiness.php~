@@ -1,0 +1,58 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * LogActionBusiness
+ *
+ * @ORM\Table(name="log_action_business")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\LogActionBusinessRepository")
+ */
+class LogActionBusiness extends LogAction
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Business")
+     * @ORM\JoinColumn(name="business_id", referencedColumnName="id")
+     */
+    private $business;
+
+
+    
+
+
+
+    /**
+     * Set business
+     *
+     * @param \AppBundle\Entity\Business $business
+     *
+     * @return LogActionBusiness
+     */
+    public function setBusiness(\AppBundle\Entity\Business $business = null)
+    {
+        $this->business = $business;
+
+        return $this;
+    }
+
+    /**
+     * Get business
+     *
+     * @return \AppBundle\Entity\Business
+     */
+    public function getBusiness()
+    {
+        return $this->business;
+    }
+}
