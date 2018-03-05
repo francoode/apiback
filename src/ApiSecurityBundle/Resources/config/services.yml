@@ -1,0 +1,37 @@
+services:
+    api_security.api_key_user_provider:
+        class: ApiSecurityBundle\Security\ApiKeyUserProvider
+#        public: false
+        arguments:
+        - '@doctrine.orm.entity_manager'
+    api_security.api_key_helper:
+        alias: api_security.api_key_user_provider
+
+    api_security.api_key_authenticator:
+        class: ApiSecurityBundle\Security\ApiKeyAuthenticator
+        public: false
+        arguments:
+        - '@api_security.key_extractor'
+        - '@kodear_api.helper_service'
+
+    api_security.api_key_generator:
+        class: ApiSecurityBundle\Util\ApiKeyGenerator
+
+    api_security.user_api_key_service:
+        class: ApiSecurityBundle\Service\UserApiKeyService
+        arguments:
+        - '@doctrine.orm.entity_manager'
+        - '@security.encoder_factory.generic'
+        - '@api_security.api_key_generator'
+        - '%api_security.expiration_days%'
+
+    api_security.key_extractor.header:
+        class: ApiSecurityBundle\Util\ApiKeyExtractorFromHeader
+        arguments:
+        - '%api_security.parameter_name%'
+        - '@logger'
+
+    api_security.key_extractor.query:
+        class: ApiSecurityBundle\Util\ApiKeyExtractorFromQuery
+        arguments:
+        - '%api_security.parameter_name%'

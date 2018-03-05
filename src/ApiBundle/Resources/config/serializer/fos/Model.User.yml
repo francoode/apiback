@@ -1,0 +1,21 @@
+# Aca hago expose de las propiedades que quiero que se muestren del FOSUserBundle
+FOS\UserBundle\Model\User:
+    exclusion_policy: ALL
+    properties:
+        id:
+            expose: true
+            groups: [profile, basic_user, login]
+        username:
+            expose: true
+            groups: [profile, basic_user, login]
+        email:
+            expose: true
+            groups: [profile, login, basic_user]
+        roles:
+            expose: true
+        enabled:
+            expose: true
+        confirmationToken:
+            expose: true
+        deleted:
+            expose: true

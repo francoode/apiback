@@ -1,0 +1,13 @@
+jms_serializer:
+  metadata:
+    auto_detection: true
+    directories:
+      FOSUserBundle:
+        namespace_prefix: "FOS\\UserBundle"
+        path: "@ApiBundle/Resources/config/serializer/fos"
+  property_naming:
+    separator:
+    lower_case: false
+
+parameters:
+  jms_serializer.camel_case_naming_strategy.class: ApiBundle\Serializer\CamelCaseNamingStrategy

@@ -1,0 +1,18 @@
+#subscribers here
+#services:
+#    kodear_api.add_file_link_subscriber:
+#        class: ApiBundle\EventSubscribers\AddFileLinksSubscriber
+#        arguments:
+#            - '@kodear_api.helper_service'
+#        tags:
+#            - { name: jms_serializer.event_subscriber }
+#
+#    kodear_api.extra_fields_subscriber:
+#        class: ApiBundle\EventSubscribers\ExtraFieldsSubscriber
+#        arguments:
+#            - '@doctrine.orm.entity_manager'
+#            - '@api_security.api_key_user_provider'
+#            - '@service_container'
+#        tags:
+#            - { name: jms_serializer.event_subscriber }
+#            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

@@ -1,0 +1,8 @@
+api:
+    registration_confirm_template: 'email/user_registration_confirm.html.twig'
+    password_reset_template: 'email/password_reset.html.twig'
+    client:
+        brand: 'Bikip'
+        base_url: 'http://kodear.bikipweb.net'
+        registration_confirm_url: '/register/confirm/'
+        password_reset_url: '/password/reset/'

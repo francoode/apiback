@@ -1,0 +1,66 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    encoders:
+        FOS\UserBundle\Model\UserInterface:
+            algorithm: bcrypt
+            cost: 6
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+        api_key_user_provider:
+            id: api_security.api_key_user_provider
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        api_public:
+            pattern: ^/api/v(.*)/public/(.*)
+            anonymous: true
+        api:
+            pattern: ^/api/v(.*)/(.*)
+            context: user
+            stateless: true
+            simple_preauth:
+              authenticator: api_security.api_key_authenticator
+            provider: api_key_user_provider
+            anonymous: false
+#        main:
+#            pattern: ^/
+#            form_login:
+#                provider: fos_userbundle
+#                csrf_token_generator: security.csrf.token_manager
+#                success_handler: kodear_ecommerce_core.event.authentication_success_handler
+#                use_referer: false
+#            oauth:
+#                check_path:     /connect_check
+#                provider:       fos_userbundle
+#                login_path:     /login
+#                resource_owners:
+#                  facebook:     "/login/check-facebook"
+#                  google:       "/login/check-google"
+#                  twitter:      "/login/check-twitter"
+#                  instagram:    "/login/check-instagram"
+#                oauth_user_provider:
+#                  service:      kodear_ecommerce_customer.services.oauth_user_provider
+#            logout: true
+#            anonymous: true
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/doc$,   roles : IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/auth$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/shop/checkout, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/profile, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }

@@ -1,0 +1,29 @@
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+
+api:
+    resource: "@ApiBundle/Controller/"
+    type:     annotation
+
+api_security:
+    resource: "@ApiSecurityBundle/Controller/"
+    type:     annotation
+
+#_liip_imagine:
+#    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+# blank page for api index
+index:
+    path: /
+    defaults:
+        _controller: FrameworkBundle:Template:template
+        template:    '@ApiBundle/Views/index.html.twig'
+
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"

@@ -1,0 +1,10 @@
+fos_user:
+  db_driver: orm
+  firewall_name: api
+  user_class: \ApiBundle\Entity\User
+  from_email:
+    address:        info@kodear.net
+    sender_name:    KODEAR
+  registration:
+    confirmation:
+      enabled: true
